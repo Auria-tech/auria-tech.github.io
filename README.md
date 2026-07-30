@@ -23,7 +23,7 @@ To take a post down, delete the file (or put `draft: true` back) and push.
 
 ## Running it locally
 
-Requires Node 20 or newer.
+Requires Node 20 or newer. CI builds on Node 22.
 
 ```sh
 npm install
