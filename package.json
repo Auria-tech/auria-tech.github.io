@@ -10,11 +10,13 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
-    "check": "eleventy --dryrun"
+    "check": "npm run check:posts && eleventy --dryrun",
+    "check:posts": "node scripts/check-posts.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",
-    "@11ty/eleventy-plugin-rss": "^3.0.0"
+    "@11ty/eleventy-plugin-rss": "^3.0.0",
+    "gray-matter": "^4.0.3"
   },
   "overrides": {
     "brace-expansion": "^5.0.8"

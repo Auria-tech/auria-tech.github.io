@@ -30,6 +30,11 @@ jobs:
 
       - run: npm ci
 
+      # Runs before the build so a post with broken front matter fails here,
+      # with a plain-English message, instead of half-publishing.
+      - name: Check posts
+        run: npm run check:posts
+
       - run: npm run build
 
       - uses: actions/configure-pages@v6
