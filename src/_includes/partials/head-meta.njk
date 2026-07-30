@@ -21,6 +21,10 @@
 <meta name="description" content="{{ pageDescription }}" />
 <link rel="canonical" href="{{ pageUrl }}" />
 <link rel="alternate" type="application/atom+xml" title="{{ site.title }}" href="/feed.xml" />
+{# Declaring an icon stops the browser requesting /favicon.ico and 404ing on
+   every single page view. Source: src/static/favicon.svg. #}
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 {%- if noindex %}
 {# Thin or transactional pages. "follow" so the links on them still carry. #}
 <meta name="robots" content="noindex, follow" />

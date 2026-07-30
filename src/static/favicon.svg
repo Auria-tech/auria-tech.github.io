@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Auria">
+  <!-- Colours match src/_includes/css/main.css. The media query is honoured by
+       browsers that support SVG favicons, so the mark stays legible on a dark
+       browser chrome instead of disappearing into it. -->
+  <style>
+    .bg { fill: #1a1a1a; }
+    .fg { fill: #fffefb; }
+    @media (prefers-color-scheme: dark) {
+      .bg { fill: #e8e6e1; }
+      .fg { fill: #16161a; }
+    }
+  </style>
+  <rect class="bg" width="64" height="64" rx="12" />
+  <path class="fg" d="M32 13 46.5 51h-8.2l-2.6-7.3H20.3L17.7 51H9.5L24 13h8zm-9.1 24h9.5L27.7 23.6z" />
+</svg>
