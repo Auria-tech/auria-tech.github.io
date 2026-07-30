@@ -1,0 +1,81 @@
+{#
+  Analytics. See docs/analytics.md for what this collects and what it refuses to.
+
+  Two pieces:
+    1. The Umami tracker, which records the page view (self-hosted, cookieless).
+    2. An engagement probe on article pages, which reports two named events so we
+       can tell "opened the tab" apart from "actually read it".
+
+  Both are deliberately absent from local builds — `analytics.enabled` is false
+  unless ELEVENTY_RUN_MODE is "build", so `npm start` never pollutes real numbers.
+#}
+{% if analytics.enabled and analytics.websiteId %}
+  <script
+    defer
+    src="{{ analytics.host }}/script.js"
+    data-website-id="{{ analytics.websiteId }}"
+    data-do-not-track="true"
+  ></script>
+
+  {% if page.url.startsWith("/posts/") %}
+    <script>
+      // Engagement probe. Emits at most two events per page view:
+      //   scroll-90  the reader reached the last tenth of the article body
+      //   read-30s   the tab was visible and focused for 30 seconds
+      // Neither carries any data beyond its own name.
+      (function () {
+        var article = document.querySelector("article");
+        if (!article) return;
+
+        // script.js is deferred, so window.umami may not exist yet. Hold events
+        // briefly rather than dropping the ones fired early in the page's life.
+        var pending = [];
+        var poll = null;
+        function track(name) {
+          if (window.umami) return window.umami.track(name);
+          pending.push(name);
+          if (poll) return;
+          poll = setInterval(function () {
+            if (!window.umami) return;
+            clearInterval(poll);
+            while (pending.length) window.umami.track(pending.shift());
+          }, 250);
+          // If the tracker never loads (blocked, offline), stop waiting.
+          setTimeout(function () {
+            clearInterval(poll);
+            pending.length = 0;
+          }, 15000);
+        }
+
+        // --- Did they reach the end? ---------------------------------------
+        // Measured against scrollable article height, so it means "scrolled
+        // through the piece", not "the piece happened to fit on one screen".
+        // Articles shorter than the viewport emit nothing at all; a milestone
+        // we cannot honestly measure is worse than a missing one.
+        var reached = false;
+        function onScroll() {
+          var box = article.getBoundingClientRect();
+          var scrollable = box.height - window.innerHeight;
+          if (scrollable < 200) return;
+          if (-box.top / scrollable >= 0.9) {
+            reached = true;
+            window.removeEventListener("scroll", onScroll);
+            track("scroll-90");
+          }
+        }
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        // --- Did they stay? -------------------------------------------------
+        // Counts only seconds where the tab is actually visible, so a page left
+        // open in a background tab never earns a read.
+        var visibleSeconds = 0;
+        var timer = setInterval(function () {
+          if (document.visibilityState !== "visible") return;
+          if (++visibleSeconds < 30) return;
+          clearInterval(timer);
+          track("read-30s");
+        }, 1000);
+      })();
+    </script>
+  {% endif %}
+{% endif %}
