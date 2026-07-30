@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+title: Drafts
+permalink: /drafts/
+eleventyExcludeFromCollections: true
+# This page is itself a draft, so the same rule that hides draft posts from a
+# production build hides this index too. It exists only under `npm start`.
+draft: true
+---
+
+<h1>Drafts</h1>
+
+<p>
+  Posts with <code>draft: true</code> in their front matter. This page and
+  everything on it exist only in local preview — none of it is built or
+  published. Remove the <code>draft: true</code> line to publish a post.
+</p>
+
+{% if collections.drafts | length %}
+  {% set listPosts = collections.drafts %}
+  {% set listLevel = 2 %}
+  {% include "partials/post-list.njk" %}
+{% else %}
+  <p>No drafts right now.</p>
+{% endif %}

@@ -2,13 +2,31 @@
 layout: layouts/base.njk
 ---
 
+{% if draft %}
+  <p class="draft-notice">
+    <strong>Draft.</strong> This page exists only in local preview. Remove the
+    <code>draft: true</code> line from the front matter to publish it.
+  </p>
+{% endif %}
+
 <article>
   <h1>{{ title }}</h1>
   <p class="meta">
     Published <time datetime="{{ date | isoDate }}">{{ date | readableDate }}</time>
+    {%- if tags | length %}
+      <span class="tag-list">
+        {%- for tag in tags %}
+          <a href="/tags/{{ tag | slugify }}/">{{ tag }}</a>
+        {%- endfor %}
+      </span>
+    {%- endif %}
   </p>
 
   {{ content | safe }}
 </article>
+
+{# Right after the piece they just read is the one place a reader has actually
+   been given a reason to subscribe. #}
+{% include "partials/subscribe.njk" %}
 
 <p><a href="/">← All writing</a></p>

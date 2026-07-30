@@ -1,0 +1,4 @@
+# The starter template is documentation, not a post. Ignoring it here keeps it
+# out of every collection, feed and listing — including local preview — so an
+# editor can copy it without it ever looking like real content.
+src/posts/_template.md

@@ -1,0 +1,17 @@
+---
+pagination:
+  data: collections.postTags
+  size: 1
+  alias: tag
+permalink: /tags/{{ tag | slugify }}/
+layout: layouts/base.njk
+eleventyExcludeFromCollections: true
+---
+
+<h1>Tagged “{{ tag }}”</h1>
+
+{% set listPosts = collections.posts | postsWithTag(tag) %}
+{% set listLevel = 2 %}
+{% include "partials/post-list.njk" %}
+
+<p><a href="/archive/">← All topics</a></p>

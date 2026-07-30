@@ -1,0 +1,29 @@
+---
+layout: layouts/base.njk
+title: Archive
+description: Every post on the site, newest first.
+permalink: /archive/
+---
+
+<h1>Archive</h1>
+
+{% if collections.posts | length %}
+  <p class="meta">{{ collections.posts | length }} post{% if collections.posts | length != 1 %}s{% endif %}.</p>
+
+  {%- for group in collections.postsByYear %}
+    <h2>{{ group.year }}</h2>
+    {% set listPosts = group.posts %}
+    {% include "partials/post-list.njk" %}
+  {%- endfor %}
+
+  {% if collections.postTags | length %}
+    <h2>Topics</h2>
+    <ul class="tag-index">
+      {%- for tag in collections.postTags %}
+        <li><a href="/tags/{{ tag | slugify }}/">{{ tag }}</a></li>
+      {%- endfor %}
+    </ul>
+  {% endif %}
+{% else %}
+  <p>Nothing published yet.</p>
+{% endif %}
