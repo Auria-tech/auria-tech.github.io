@@ -12,7 +12,10 @@ running a deploy by hand.
 
 1. Add a `.md` file to `src/posts/`.
 2. Commit it to `main` and push.
-3. GitHub Actions builds the site and publishes it. It takes about a minute.
+3. GitHub Actions builds the site and publishes it.
+
+Measured end to end, a push reaches this page in well under two minutes. No
+one has to be awake for it.
 
 There is no CMS, no database, and no admin login. The posts are plain files in
 Git, which means the whole archive is portable to any other host if we ever
