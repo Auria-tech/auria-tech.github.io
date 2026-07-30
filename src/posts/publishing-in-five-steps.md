@@ -50,7 +50,11 @@ does not download anything before it can show you text.
 
 ## The measurement
 
-We did not estimate this. A real post was written and published by following the
+We did not estimate this. This post is the test: it was written by following the
 written guide start to finish, and the clock ran until the page answered on the
-public URL. The number came in well inside our ten-minute target, and most of
-what remains is deciding on a title.
+public URL.
+
+**Sixty-five seconds**, of which forty-three were the machine — the site
+validating the post, rebuilding, and republishing itself. Our target was ten
+minutes. What is left of the ten minutes belongs to whoever is writing, which is
+the point.
