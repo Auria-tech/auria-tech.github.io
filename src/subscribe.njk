@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: /subscribe/
+title: Subscribe
+description: Get new writing from Auria by email, or follow along by RSS.
+---
+
+<h1>Subscribe</h1>
+
+{% if newsletter.formAction %}
+  {% include "partials/subscribe.njk" %}
+{% else %}
+  <p>
+    The email list is not open yet. In the meantime you can
+    <a href="/feed.xml">follow along by RSS</a>.
+  </p>
+{% endif %}
+
+<h2>Prefer not to give us your email?</h2>
+<p>
+  <a href="/feed.xml">The RSS feed</a> carries the same posts, needs no account, and
+  tells us nothing about you.
+</p>

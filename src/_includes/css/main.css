@@ -193,9 +193,120 @@ hr {
   margin: 2rem 0;
 }
 
+/* Email capture. Boxed off from the prose so it reads as an offer, not as part of
+   the piece. Inputs inherit the page font deliberately — browsers default form
+   controls to something else, which looks bolted on. */
+.subscribe {
+  margin: 2.5rem 0 1rem;
+  padding: 1.25rem;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
+.subscribe h2 {
+  margin-top: 0;
+}
+
+.subscribe-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  flex-direction: column;
+  margin-bottom: 0.85rem;
+}
+
+.subscribe-form label {
+  font-size: 0.9375rem;
+}
+
+.subscribe-form input[type="email"] {
+  font: inherit;
+  color: inherit;
+  padding: 0.5rem 0.6rem;
+  background: var(--paper);
+  border: 1px solid var(--ink-soft);
+  border-radius: 4px;
+  /* Stops iOS Safari zooming the viewport on focus. */
+  font-size: max(1rem, 16px);
+}
+
+/* Checkbox and its label sit on one line, with the label wrapping under itself
+   rather than under the box. */
+.subscribe-consent {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  margin-bottom: 1rem;
+  font-size: 0.9375rem;
+}
+
+.subscribe-consent input {
+  /* Nudged down to line up with the first line of label text. */
+  margin: 0.3rem 0 0;
+  width: 1.05rem;
+  height: 1.05rem;
+  accent-color: var(--accent);
+}
+
+.subscribe-form button {
+  font: inherit;
+  padding: 0.5rem 1.1rem;
+  color: var(--paper);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.subscribe-form .meta {
+  margin: 0.85rem 0 0;
+}
+
 .site-footer {
   padding: 1.5rem 0 3rem;
   border-top: 1px solid var(--rule);
   color: var(--ink-soft);
   font-size: 0.875rem;
+}
+
+/* Listings, tags and the local-only draft markers. */
+
+.post-list h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1.1rem;
+}
+
+.tag-list a {
+  margin-left: 0.6rem;
+  white-space: nowrap;
+}
+
+.tag-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  list-style: none;
+  padding: 0;
+}
+
+/* Drafts are never built, so these two only ever appear under `npm start`. */
+.badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  vertical-align: 0.1em;
+  padding: 0.1rem 0.4rem;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  color: var(--ink-soft);
+}
+
+.draft-notice {
+  margin: 1rem 0 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  font-size: 0.9rem;
 }
