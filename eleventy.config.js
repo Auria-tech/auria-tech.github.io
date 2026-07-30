@@ -86,6 +86,36 @@ export default function (eleventyConfig) {
     value.toISOString().slice(0, 10),
   );
 
+  // Serialises a structured-data object for a <script type="application/ld+json">
+  // block. Drops empty values (a post with no tags should have no `keywords`
+  // key, not an empty one) and escapes `<` so nothing inside a title can close
+  // the script tag early. See _includes/partials/head-meta.njk.
+  eleventyConfig.addFilter("jsonld", (value) => {
+    const prune = (input) => {
+      if (Array.isArray(input)) return input.map(prune).filter(isPresent);
+      if (input && typeof input === "object") {
+        return Object.fromEntries(
+          Object.entries(input)
+            .map(([key, item]) => [key, prune(item)])
+            .filter(([, item]) => isPresent(item)),
+        );
+      }
+      return input;
+    };
+    const isPresent = (item) =>
+      item !== null &&
+      item !== undefined &&
+      item !== "" &&
+      !(Array.isArray(item) && item.length === 0) &&
+      !(
+        typeof item === "object" &&
+        !Array.isArray(item) &&
+        Object.keys(item).length === 0
+      );
+
+    return JSON.stringify(prune(value)).replaceAll("<", "\\u003C");
+  });
+
   return {
     dir: {
       input: "src",

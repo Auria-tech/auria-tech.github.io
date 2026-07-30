@@ -37,6 +37,12 @@ jobs:
 
       - run: npm run build
 
+      # Canonicals, sitemap, feed and structured data are invisible on the page,
+      # so a break in them would otherwise ship unnoticed. Runs after the build
+      # because it inspects the built HTML.
+      - name: Check crawlability
+        run: npm run check:seo
+
       - uses: actions/configure-pages@v6
 
       - uses: actions/upload-pages-artifact@v5

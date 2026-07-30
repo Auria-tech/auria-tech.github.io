@@ -2,12 +2,34 @@
 permalink: /sitemap.xml
 eleventyExcludeFromCollections: true
 ---
+{#
+  Every page we want indexed, and nothing else. Pages marked `noindex: true`
+  are left out — telling a crawler "index this" in the sitemap and "do not
+  index this" on the page itself is a contradiction it resolves against us.
+
+  Tag pages are paginated, which keeps them out of collections.all, so they are
+  listed separately from collections.postTags.
+
+  `lastmod` is the page's own date, except for pages whose content is a list of
+  posts (`sitemapLastmod: newestPost`), where the honest answer is the date of
+  the newest post on them.
+#}
+{%- set newestPost = collections.posts | first -%}
 <?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   {%- for page in collections.all %}
+  {%- if not page.data.noindex %}
   <url>
     <loc>{{ page.url | htmlBaseUrl(site.url) }}</loc>
-    <lastmod>{{ page.date | isoDate }}</lastmod>
+    <lastmod>{% if page.data.sitemapLastmod == 'newestPost' and newestPost %}{{ newestPost.date | isoDate }}{% else %}{{ (page.data.updated or page.date) | isoDate }}{% endif %}</lastmod>
+  </url>
+  {%- endif %}
+  {%- endfor %}
+  {%- for tag in collections.postTags %}
+  {%- set tagPosts = collections.posts | postsWithTag(tag) %}
+  <url>
+    <loc>{{ site.url }}/tags/{{ tag | slugify }}/</loc>
+    <lastmod>{{ tagPosts[0].date | isoDate }}</lastmod>
   </url>
   {%- endfor %}
 </urlset>

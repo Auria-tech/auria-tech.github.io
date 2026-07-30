@@ -8,11 +8,13 @@
 //
 // Run it locally with `npm run check:posts`.
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
 const POSTS_DIR = "src/posts";
+// src/static is copied to the site root, so /images/x.png lives here.
+const STATIC_DIR = "src/static";
 const SLUG = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const MAX_DESCRIPTION = 160;
 
@@ -97,6 +99,40 @@ for (const name of files) {
         file,
         `\`date\` is ${Math.round(daysAhead)} days in the future`,
         "There is no scheduled publishing: this post goes live as soon as it is committed without `draft: true`, it will just show a future date. Use `draft: true` to hold it back.",
+      );
+    }
+  }
+
+  // --- updated -----------------------------------------------------------
+  if ("updated" in data) {
+    if (!(data.updated instanceof Date) || Number.isNaN(data.updated.getTime())) {
+      fail(
+        file,
+        "`updated` is not a real date",
+        "Use plain `updated: 2026-08-14`, or delete the line if the post has not been revised.",
+      );
+    } else if (data.date instanceof Date && data.updated < data.date) {
+      warn(
+        file,
+        "`updated` is earlier than `date`",
+        "A revision cannot predate publication — check which of the two dates is wrong.",
+      );
+    }
+  }
+
+  // --- image ---------------------------------------------------------------
+  if ("image" in data) {
+    if (typeof data.image !== "string" || !data.image.startsWith("/images/")) {
+      fail(
+        file,
+        `\`image: ${data.image}\` is not a usable share picture`,
+        "Write the address the picture has on the site: `image: /images/my-picture.png`.",
+      );
+    } else if (!existsSync(path.join(STATIC_DIR, data.image))) {
+      fail(
+        file,
+        `the share picture ${data.image} is not in the repository`,
+        `Add the file to ${STATIC_DIR}${data.image} and commit it, or remove the \`image:\` line.`,
       );
     }
   }

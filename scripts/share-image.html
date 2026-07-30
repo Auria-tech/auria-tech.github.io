@@ -1,0 +1,64 @@
+<!doctype html>
+<!--
+  Source for src/static/images/share-default.png — the picture that shows when
+  any page without its own `image:` is shared on social media or in chat.
+
+  It is a checked-in PNG rather than something generated at build time, because
+  a build step that needs a browser is a build step that breaks in CI. Rendering
+  it is a manual, occasional job. To regenerate after editing this file (macOS):
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+      --headless --disable-gpu --hide-scrollbars --window-size=1200,630 \
+      --screenshot=src/static/images/share-default.png scripts/share-image.html
+
+  Deliberately plain: the editorial niche is not decided, so this says who
+  published the page and nothing that would have to be walked back later.
+  Colours match src/_includes/css/main.css.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 1200px;
+        height: 630px;
+      }
+      body {
+        background: #fffefb;
+        color: #1a1a1a;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 90px;
+        box-sizing: border-box;
+      }
+      .mark {
+        font-size: 132px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        line-height: 1;
+      }
+      .rule {
+        width: 120px;
+        height: 8px;
+        background: #0b5fff;
+        margin: 44px 0;
+      }
+      .sub {
+        font-size: 38px;
+        color: #595959;
+        line-height: 1.35;
+        max-width: 900px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mark">Auria</div>
+    <div class="rule"></div>
+    <div class="sub">auria-tech.github.io</div>
+  </body>
+</html>

@@ -10,8 +10,9 @@
   "scripts": {
     "start": "eleventy --serve",
     "build": "eleventy",
-    "check": "npm run check:posts && eleventy --dryrun",
-    "check:posts": "node scripts/check-posts.mjs"
+    "check": "npm run check:posts && npm run build && npm run check:seo",
+    "check:posts": "node scripts/check-posts.mjs",
+    "check:seo": "node scripts/check-seo.mjs"
   },
   "devDependencies": {
     "@11ty/eleventy": "^3.1.6",

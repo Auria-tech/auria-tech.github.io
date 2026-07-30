@@ -108,6 +108,9 @@ The block between the three-dash lines at the top of every post.
 | `tags` | no | Topics, e.g. `tags: [pricing, interviews]`. Each one gets its own page at `/tags/pricing/` automatically. Leave the line out if you do not want any. |
 | `draft` | no | `draft: true` keeps the post unpublished. See [Drafts](#drafts). |
 | `slug` | no | Overrides the web address. Only needed for [renaming a file without breaking its link](#rename-a-file-without-breaking-its-address). |
+| `updated` | no | `updated: 2026-08-14` if you materially revise a post after publishing. The post keeps its original date and position, and search engines and feed readers are told it changed. |
+| `image` | no | A share picture for this post, e.g. `image: /images/pricing-chart.png`. Put the file in `src/static/images/`, make it 1200×630. Without this, posts share with the site's default card. |
+| `noindex` | no | `noindex: true` keeps a page out of Google and out of the sitemap. For thank-you pages and the like — not for posts. |
 
 Two rules that cause most mistakes:
 

@@ -18,8 +18,14 @@ eleventyExcludeFromCollections: true
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="{{ absoluteUrl }}" />
-    <updated>{{ post.date | dateToRfc3339 }}</updated>
+    <published>{{ post.date | dateToRfc3339 }}</published>
+    {#- `updated` is what readers sort by, so it tracks a revision if there is one. #}
+    <updated>{{ (post.data.updated or post.date) | dateToRfc3339 }}</updated>
     <id>{{ absoluteUrl }}</id>
+    {%- for tag in post.data.tags %}
+    <category term="{{ tag }}" />
+    {%- endfor %}
+    <summary>{{ post.data.description }}</summary>
     <content type="html">{{ post.content | htmlToAbsoluteUrls(absoluteUrl) }}</content>
   </entry>
   {%- endfor %}
