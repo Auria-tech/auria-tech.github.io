@@ -7,19 +7,13 @@ automatically on every push to `main`.
 
 ## Publishing a post
 
-You do not need to run anything locally to publish.
+**Writers and editors: read [CONTENT.md](CONTENT.md).** It is the operator
+guide — browser only, no terminal, no installs.
 
-1. Copy `src/posts/_template.md` to `src/posts/your-post-title.md`. The filename
-   becomes the URL, so keep it lowercase with hyphens.
-2. Fill in `title`, `description`, and `date` at the top of the file.
-3. Delete the `draft: true` line.
-4. Commit to `main` and push.
-
-The site rebuilds and goes live in about a minute. Progress is visible under the
-repository's **Actions** tab. Nothing else is required — no deploy button, no
-one on call.
-
-To take a post down, delete the file (or put `draft: true` back) and push.
+The short version for engineers: add a Markdown file to `src/posts/` with
+`title`, `description` and `date` in front matter, commit to `main`. CI validates
+the front matter, builds, and publishes. `draft: true` holds a post back; drafts
+are dropped from the build entirely and are only visible under `npm start`.
 
 ## Running it locally
 
@@ -33,8 +27,9 @@ npm start          # dev server with live reload at http://localhost:8080
 Other commands:
 
 ```sh
-npm run build      # write the site to _site/
-npm run check      # build without writing files — fastest way to catch an error
+npm run build        # write the site to _site/
+npm run check        # validate posts, then build without writing files
+npm run check:posts  # front-matter validation only (this is what CI gates on)
 ```
 
 ## How the deploy works
@@ -54,22 +49,31 @@ Rolling back a bad publish is `git revert` plus a push.
 
 ```
 src/
-  index.njk                  home page — lists published posts
+  index.njk                  home page — 10 most recent posts
+  archive.njk                /archive/ — every post by year, plus the topic index
+  tags.njk                   /tags/<tag>/ — one page per tag, generated
+  tags.11tydata.js           computed title/description for those tag pages
+  drafts.njk                 /drafts/ — local preview only, itself a draft
   404.njk                    not-found page
   feed.njk                   Atom feed, output as /feed.xml
   sitemap.njk                output as /sitemap.xml
   posts/
-    _template.md             copy this to start a post
+    _template.md             copy this to start a post (excluded from the build)
     *.md                     one file per post
-    posts.11tydata.js        shared settings for every post
+    posts.11tydata.js        layout and permalink for every post
   _includes/
     layouts/base.njk         the HTML shell every page uses
     layouts/post.njk         the post template
+    partials/post-list.njk   the one post-listing markup all listings share
     css/main.css             all the styling there is
   _data/site.json            site title, description, canonical URL
   static/robots.txt          copied to the site root verbatim
+  static/images/             pictures used in posts, served from /images/
+scripts/check-posts.mjs      front-matter validation, run by CI before the build
+CONTENT.md                   the operator guide for whoever writes the posts
 eleventy.config.js           build configuration
-.github/workflows/deploy.yml build and deploy on push to main
+.eleventyignore              files under src/ that are not content
+.github/workflows/deploy.yml validate, build and deploy on push to main
 ```
 
 ## Choices worth knowing about
