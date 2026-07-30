@@ -65,12 +65,17 @@ src/
     layouts/base.njk         the HTML shell every page uses
     layouts/post.njk         the post template
     partials/post-list.njk   the one post-listing markup all listings share
+    partials/head-meta.njk   everything crawlers and social networks read
     css/main.css             all the styling there is
   _data/site.json            site title, description, canonical URL
   static/robots.txt          copied to the site root verbatim
+  static/favicon.svg         site icon, plus apple-touch-icon.png beside it
   static/images/             pictures used in posts, served from /images/
 scripts/check-posts.mjs      front-matter validation, run by CI before the build
+scripts/check-seo.mjs        crawlability checks, run by CI after the build
+scripts/share-image.html     source for the default social share picture
 CONTENT.md                   the operator guide for whoever writes the posts
+docs/seo.md                  what we tell search engines, and the speed baseline
 eleventy.config.js           build configuration
 .eleventyignore              files under src/ that are not content
 .github/workflows/deploy.yml validate, build and deploy on push to main
